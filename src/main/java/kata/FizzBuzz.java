@@ -3,27 +3,25 @@ package kata;
 import static java.lang.String.*;
 
 public class FizzBuzz {
-    public String translate(int number) {
-        String output = "";
-        if (isDividedContains(number, 3)) {
-            output += "Fizz";
+    private final int rawNumber;
+
+    public FizzBuzz(int number) {
+
+        this.rawNumber = number;
+    }
+
+    public String translate() {
+        String result = "";
+        if (isDividedByOrContains(3)) {
+            result += "Fizz";
         }
-        if (isDividedContains(number, 5)) {
-            output += "Buzz";
+        if (isDividedByOrContains(5)) {
+            result += "Buzz";
         }
-
-        return output.isEmpty() ? valueOf(number) : output;
+        return result.isEmpty() ? valueOf(rawNumber) : result;
     }
 
-    private boolean isDividedContains(int rawNumber, int Number) {
-        return isDividedBy(rawNumber, Number) || isContains(rawNumber, valueOf(Number));
-    }
-
-    private boolean isContains(int rawNumber, String Number) {
-        return valueOf(rawNumber).contains(Number);
-    }
-
-    private boolean isDividedBy(int rawNumber, int number) {
-        return rawNumber % number == 0;
+    private boolean isDividedByOrContains(int number) {
+        return rawNumber % number == 0 || valueOf(rawNumber).contains(valueOf(number));
     }
 }
