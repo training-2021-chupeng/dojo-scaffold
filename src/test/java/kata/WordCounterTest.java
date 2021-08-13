@@ -18,8 +18,12 @@ public class WordCounterTest {
 
     private static Stream<Arguments> TestCases() {
         return Stream.of(
-                Arguments.arguments("hello", "hello 1"),
-                Arguments.arguments("hello he", "hello 1\r\nhe 1")
+                Arguments.arguments("", ""),
+                Arguments.arguments("hello", "hello 1"), // 一般等价类
+                Arguments.arguments("hello he", "hello 1\r\nhe 1"),
+                Arguments.arguments("hello hello he", "hello 2\r\nhe 1"),
+                Arguments.arguments("hello he he", "he 2\r\nhello 1"),
+                Arguments.arguments("hello  he", "hello 1\r\nhe 1")
         );
     }
 }
