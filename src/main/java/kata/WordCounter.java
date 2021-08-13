@@ -1,16 +1,27 @@
 package kata;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class WordCounter {
-    public String count(String words) {
-        String output = "";
-        for (String word : words.split("\\s+")) {
-            if (!output.isEmpty()) {
-                output += "\r\n";
-            }
-            output += word + " 1";
+    String text;
+
+    public WordCounter(String test) {
+        this.text = test;
+    }
+
+    public String count() {
+        if (text.isEmpty()) {
+            return "";
         }
-        return output;
+        String[] words;
+        words = text.split(" ");
+        for (String word : words) {
+            word += " 1";
+        }
+        return text + " 1";
     }
 }
