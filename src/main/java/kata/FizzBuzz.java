@@ -1,27 +1,36 @@
 package kata;
 
-import static java.lang.String.*;
+import static java.lang.String.valueOf;
 
 public class FizzBuzz {
-    private final int rawNumber;
+    public static final int FIZZ_NUMBER = 3;
+    public static final int BUZZ_NUMBER = 5;
+    private final int number;
 
     public FizzBuzz(int number) {
-
-        this.rawNumber = number;
+        this.number = number;
     }
 
-    public String translate() {
+    public String report() {
         String result = "";
-        if (isDividedByOrContains(3)) {
+        if (isContainOrDividedBy(FIZZ_NUMBER)) {
             result += "Fizz";
         }
-        if (isDividedByOrContains(5)) {
+        if (isContainOrDividedBy(BUZZ_NUMBER)) {
             result += "Buzz";
         }
-        return result.isEmpty() ? valueOf(rawNumber) : result;
+        return result.isEmpty() ? valueOf(number) : result;
     }
 
-    private boolean isDividedByOrContains(int number) {
-        return rawNumber % number == 0 || valueOf(rawNumber).contains(valueOf(number));
+    private boolean isContainOrDividedBy(int checkNumber) {
+        return isDividedBy(checkNumber) || isContains(checkNumber);
+    }
+
+    private boolean isContains(int checkNumber) {
+        return valueOf(number).contains(valueOf(checkNumber));
+    }
+
+    private boolean isDividedBy(int checkNumber) {
+        return number % checkNumber == 0;
     }
 }
