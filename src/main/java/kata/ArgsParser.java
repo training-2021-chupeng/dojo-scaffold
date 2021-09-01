@@ -8,19 +8,23 @@ public class ArgsParser {
     }
 
     public void parse(String commands) {
-
+        if(commands == "-l")
+        {
+            schema.setValue("l",true);
+        }
     }
 
     public Object getValue(String flag) {
-        if (flag.equals("l")) {
-            return schema.getValue("l");
-        }
-        if (flag.equals("p")) {
-            return 8080;
-        }
-        if (flag.equals("d")) {
-            return "/usr/logs";
-        }
-        return null;
+        return schema.getValue(flag);
+//        if (flag.equals("l")) {
+//            return schema.getValue("l");
+//        }
+//        if (flag.equals("p")) {
+//            return 8080;
+//        }
+//        if (flag.equals("d")) {
+//            return "/usr/logs";
+//        }
+//        return null;
     }
 }

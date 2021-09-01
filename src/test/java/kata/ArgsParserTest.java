@@ -1,5 +1,6 @@
 package kata;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -8,7 +9,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 
 public class ArgsParserTest {
     @Test
-    void parse_success() {
+    void parse_default_success() {
         /**
          * 专业术语
          * n.
@@ -25,24 +26,44 @@ public class ArgsParserTest {
          */
 
         Schema schema = new Schema(Arrays.asList(
-                new SchemaArg("l", "boolean", false),
-                new SchemaArg("p", "integer", 0),
-                new SchemaArg("d", "string", "")
+                new SchemaArg("l", Boolean.class, false),
+                new SchemaArg("p", Integer.class, 0),
+                new SchemaArg("d", String.class, "")
         ));
         ArgsParser argsParser = new ArgsParser(schema);
-        argsParser.parse("-l -p 8080 -d /usr/logs");
+        assertThat(argsParser.getValue("l")).isEqualTo(false);
+        assertThat(argsParser.getValue("p")).isEqualTo(0);
+        assertThat(argsParser.getValue("d")).isEqualTo("");
+//        assertThat(argsParser.parse("-l ");
+    }
+
+    @Test
+    void parse_single_boolean_console_success() {
+        Schema schema = new Schema(Arrays.asList(
+                new SchemaArg("l", Boolean.class, false)
+        ));
+        ArgsParser argsParser = new ArgsParser(schema);
+        argsParser.parse("-l");
         assertThat(argsParser.getValue("l")).isEqualTo(true);
-        assertThat(argsParser.getValue("p")).isEqualTo(8080);
-        assertThat(argsParser.getValue("d")).isEqualTo("/usr/logs");
+    }
+
+    @Test
+    void parse_failure() {
+        Schema schema = new Schema(Arrays.asList(
+                new SchemaArg("d", String.class, "")
+        ));
+        ArgsParser argsParser = new ArgsParser(schema);
+        Exception exception = Assertions.assertThrows(Exception.class, () -> argsParser.getValue("l"));
+        assertThat(exception.getMessage()).isEqualTo("illegal flag -- l");
     }
 
 //    @Test
-//    void parse_failure() {
+//    void parse_value_type_failure() {
 //        Schema schema = new Schema(Arrays.asList(
-//                new SchemaArg("d", "string", "")
+//                new SchemaArg("l", "integer", 0)
 //        ));
 //        ArgsParser argsParser = new ArgsParser(schema);
-//        Exception exception = Assertions.assertThrows(Exception.class, () -> argsParser.parse("-l"));
-//        assertThat(exception.getMessage()).isEqualTo("illegal flag -- l");
+//        Exception exception = Assertions.assertThrows(Exception.class, () -> argsParser.getValue("l /usr/logs"));
+//        assertThat(exception.getMessage()).isEqualTo("illegal value type");
 //    }
 }
