@@ -1,30 +1,33 @@
 package kata;
 
+import java.util.List;
+import java.util.Objects;
+
 public class ArgsParser {
     private Schema schema;
+    private List<ParsedArg> parseArgs;
 
     public ArgsParser(Schema schema) {
         this.schema = schema;
+        this.parseArgs = this.schema.loadArgs();
     }
 
     public void parse(String commands) {
-        if(commands == "-l")
-        {
-            schema.setValue("l",true);
-        }
+        String flag = commands.substring(1);
+        updateParseArg(flag, schema.convertValue(flag));
+    }
+
+    private void updateParseArg(String flag, Object value) {
+        ParsedArg parsedArg = getParsedArg(flag);
+        parsedArg.setValue(value);
     }
 
     public Object getValue(String flag) {
-        return schema.getValue(flag);
-//        if (flag.equals("l")) {
-//            return schema.getValue("l");
-//        }
-//        if (flag.equals("p")) {
-//            return 8080;
-//        }
-//        if (flag.equals("d")) {
-//            return "/usr/logs";
-//        }
-//        return null;
+        return getParsedArg(flag).getValue();
+    }
+
+    private ParsedArg getParsedArg(String flag) {
+        return parseArgs.stream().filter(arg -> arg.getFlag().equals(flag)).findFirst().orElseThrow(
+                () -> new RuntimeException("illegal flag -- " + flag));
     }
 }

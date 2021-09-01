@@ -1,6 +1,7 @@
 package kata;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Schema {
     private List<SchemaArg> schemaArgs;
@@ -9,13 +10,13 @@ public class Schema {
         this.schemaArgs = schemaArgs;
     }
 
-    public Object getValue(String flag) {
-        return schemaArgs.stream().filter(arg -> arg.getFlag().equals(flag)).findFirst().orElseThrow(
-                () -> new RuntimeException("illegal flag -- " + flag)).getValue();
+    public List<ParsedArg> loadArgs() {
+        return schemaArgs.stream()
+                .map(arg -> new ParsedArg(arg.getFlag(), arg.getDefaultValue()))
+                .collect(Collectors.toList());
     }
 
-    public void setValue(String flag, boolean value) {
-        schemaArgs.stream().filter(arg -> arg.getFlag().equals(flag)).findFirst().orElseThrow(
-                () -> new RuntimeException("illegal flag -- " + flag)).setValue(value);
+    public Object convertValue(String flag) {
+        return true;
     }
 }

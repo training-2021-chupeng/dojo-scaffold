@@ -38,13 +38,23 @@ public class ArgsParserTest {
     }
 
     @Test
-    void parse_single_boolean_console_success() {
+    void parse_single_boolean_success() {
         Schema schema = new Schema(Arrays.asList(
                 new SchemaArg("l", Boolean.class, false)
         ));
         ArgsParser argsParser = new ArgsParser(schema);
         argsParser.parse("-l");
         assertThat(argsParser.getValue("l")).isEqualTo(true);
+    }
+
+    @Test
+    void parse_single_integer_success() {
+        Schema schema = new Schema(Arrays.asList(
+                new SchemaArg("p", Integer.class, 0)
+        ));
+        ArgsParser argsParser = new ArgsParser(schema);
+        argsParser.parse("-p 8080");
+        assertThat(argsParser.getValue("p")).isEqualTo(8080);
     }
 
     @Test

@@ -15,11 +15,7 @@ public class SchemaArg {
         return flag;
     }
 
-    public Object getValue() {
-        return value;
-    }
-
-    public void setValue(boolean value) {
-        this.value = value;
+    public Object getDefaultValue() {
+        return this.value;
     }
 }
